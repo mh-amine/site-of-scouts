@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>المسجلون – الكشافة الإسلامية الجزائرية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">⚜</div>
+        <div>
+          <h1>الكشافة الإسلامية الجزائرية</h1>
+          <small>نظام تسجيل المنخرطين</small>
+        </div>
+      </div>
+      <nav>
+        <a href="index.html">التسجيل</a>
+        <a href="members.html" class="active">المسجلون</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>قائمة المسجلين</h2>
+      <p>ابحث وصفّ وصدّر قائمة المنخرطين.</p>
+    </section>
+
+    <div class="stats">
+      <div class="stat"><b id="sTotal">0</b><span>إجمالي المسجلين</span></div>
+      <div class="stat"><b id="sMale">0</b><span>ذكور</span></div>
+      <div class="stat"><b id="sFemale">0</b><span>إناث</span></div>
+      <div class="stat"><b id="sGroups">0</b><span>عدد الأفواج</span></div>
+    </div>
+
+    <div class="card">
+      <div class="filters">
+        <input id="search" type="search" placeholder="🔍 ابحث بالاسم أو الفوج أو الهاتف...">
+        <select id="fBranch"></select>
+        <select id="fWilaya"></select>
+      </div>
+
+      <p style="margin-bottom:10px;color:var(--muted)">النتائج: <b id="count">0</b></p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>الاسم الكامل</th><th>الجنس</th><th>السن</th>
+              <th>الولاية</th><th>الفوج</th><th>الفرع</th><th>الهاتف</th>
+              <th>تاريخ التسجيل</th><th class="col-action">إجراء</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <p id="emptyMsg" class="empty">لا يوجد مسجلون بعد. <a href="index.html" style="color:var(--green);font-weight:700">سجّل أول عضو</a></p>
+      </div>
+
+      <div class="actions">
+        <a href="index.html" class="btn btn-primary">+ تسجيل جديد</a>
+        <button id="exportBtn" class="btn btn-gold">تصدير CSV</button>
+        <button id="printBtn" class="btn btn-light">طباعة</button>
+        <button id="clearBtn" class="btn btn-danger">حذف الكل</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>نموذج غير رسمي • البيانات تُحفظ محلياً في متصفحك فقط</footer>
+  <div id="toast" class="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>

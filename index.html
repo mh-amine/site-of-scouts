@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>التسجيل – الكشافة الإسلامية الجزائرية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">⚜</div>
+        <div>
+          <h1>الكشافة الإسلامية الجزائرية</h1>
+          <small>نظام تسجيل المنخرطين</small>
+        </div>
+      </div>
+      <nav>
+        <a href="index.html" class="active">التسجيل</a>
+        <a href="members.html">المسجلون</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>استمارة التسجيل</h2>
+      <p>املأ البيانات التالية لتسجيل عضو جديد. الحقول المعلّمة بـ <span style="color:var(--danger)">*</span> إلزامية.</p>
+    </section>
+
+    <form id="regForm" novalidate>
+      <div class="card">
+        <h3>المعلومات الشخصية</h3>
+        <div class="grid">
+          <div class="field">
+            <label for="lastName">اللقب <span class="req">*</span></label>
+            <input id="lastName" type="text" autocomplete="family-name">
+            <span class="err"></span>
+          </div>
+          <div class="field">
+            <label for="firstName">الاسم <span class="req">*</span></label>
+            <input id="firstName" type="text" autocomplete="given-name">
+            <span class="err"></span>
+          </div>
+          <div class="field">
+            <label>الجنس <span class="req">*</span></label>
+            <div class="radio-row">
+              <label><input type="radio" name="gender" value="ذكر" checked> ذكر</label>
+              <label><input type="radio" name="gender" value="أنثى"> أنثى</label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="birthDate">تاريخ الميلاد <span class="req">*</span></label>
+            <input id="birthDate" type="date">
+            <span class="err"></span>
+          </div>
+          <div class="field">
+            <label for="birthPlace">مكان الميلاد <span class="req">*</span></label>
+            <input id="birthPlace" type="text">
+            <span class="err"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>المعلومات الكشفية</h3>
+        <div class="grid">
+          <div class="field">
+            <label for="wilaya">الولاية <span class="req">*</span></label>
+            <select id="wilaya" data-numbered="1"></select>
+            <span class="err"></span>
+          </div>
+          <div class="field">
+            <label for="group">الفوج <span class="req">*</span></label>
+            <input id="group" type="text" placeholder="مثال: فوج الأمير عبد القادر">
+            <span class="err"></span>
+          </div>
+          <div class="field">
+            <label for="branch">الفرع <span class="req">*</span></label>
+            <select id="branch"></select>
+            <span class="err"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>معلومات الاتصال</h3>
+        <div class="grid">
+          <div class="field">
+            <label for="phone">رقم الهاتف <span class="req">*</span></label>
+            <input id="phone" type="tel" inputmode="numeric" placeholder="0555123456" dir="ltr" style="text-align:right">
+            <span class="err"></span>
+          </div>
+          <div class="field">
+            <label for="email">البريد الإلكتروني</label>
+            <input id="email" type="email" dir="ltr" style="text-align:right">
+            <span class="err"></span>
+          </div>
+          <div class="field">
+            <label for="address">العنوان <span class="req">*</span></label>
+            <input id="address" type="text">
+            <span class="err"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>ولي الأمر <small style="font-weight:400;color:var(--muted)">(إلزامي لمن هم دون 18 سنة)</small></h3>
+        <div class="grid">
+          <div class="field">
+            <label for="guardianName">اسم ولي الأمر</label>
+            <input id="guardianName" type="text">
+            <span class="err"></span>
+          </div>
+          <div class="field">
+            <label for="guardianPhone">هاتف ولي الأمر</label>
+            <input id="guardianPhone" type="tel" inputmode="numeric" dir="ltr" style="text-align:right">
+            <span class="err"></span>
+          </div>
+        </div>
+        <div class="field" style="margin-top:16px">
+          <label for="notes">ملاحظات (حساسية، حالة صحية، ...)</label>
+          <textarea id="notes" rows="3"></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">تسجيل العضو</button>
+          <button type="reset" class="btn btn-light">مسح الحقول</button>
+          <a href="members.html" class="btn btn-gold">عرض المسجلين</a>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <footer>نموذج غير رسمي • البيانات تُحفظ محلياً في متصفحك فقط</footer>
+  <div id="toast" class="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
