@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>التسجيل – الكشافة الإسلامية الجزائرية</title>
+  <title>التسجيل – الكشافة الإسلامية الجزائرية – فوج عبد الحميد بن باديس</title>
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
@@ -12,10 +13,10 @@
   <header class="site">
     <div class="container topbar">
       <div class="brand">
-        <div class="logo">⚜</div>
+        <img class="logo" src="logo.png" onerror="this.onerror=null;this.src='logo.svg'" alt="شعار الكشافة الإسلامية الجزائرية">
         <div>
           <h1>الكشافة الإسلامية الجزائرية</h1>
-          <small>نظام تسجيل المنخرطين</small>
+          <small>فوج عبد الحميد بن باديس</small>
         </div>
       </div>
       <nav>
@@ -34,6 +35,17 @@
     <form id="regForm" novalidate>
       <div class="card">
         <h3>المعلومات الشخصية</h3>
+        <div class="photo-field">
+          <label for="photo" class="photo-box" title="اضغط لاختيار صورة">
+            <img id="photoPreview" alt="" hidden>
+            <span id="photoHint">📷<br>صورة الكشاف</span>
+          </label>
+          <div class="photo-actions">
+            <input id="photo" type="file" accept="image/*">
+            <button type="button" id="photoClear" class="btn btn-light" hidden>إزالة الصورة</button>
+            <small style="color:var(--muted)">صورة شمسية (اختيارية) — تُصغَّر وتُحفظ محلياً.</small>
+          </div>
+        </div>
         <div class="grid">
           <div class="field">
             <label for="lastName">اللقب <span class="req">*</span></label>
@@ -44,13 +56,6 @@
             <label for="firstName">الاسم <span class="req">*</span></label>
             <input id="firstName" type="text" autocomplete="given-name">
             <span class="err"></span>
-          </div>
-          <div class="field">
-            <label>الجنس <span class="req">*</span></label>
-            <div class="radio-row">
-              <label><input type="radio" name="gender" value="ذكر" checked> ذكر</label>
-              <label><input type="radio" name="gender" value="أنثى"> أنثى</label>
-            </div>
           </div>
           <div class="field">
             <label for="birthDate">تاريخ الميلاد <span class="req">*</span></label>
@@ -75,7 +80,7 @@
           </div>
           <div class="field">
             <label for="group">الفوج <span class="req">*</span></label>
-            <input id="group" type="text" placeholder="مثال: فوج الأمير عبد القادر">
+            <input id="group" type="text" value="فوج عبد الحميد بن باديس" readonly>
             <span class="err"></span>
           </div>
           <div class="field">

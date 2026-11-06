@@ -11,7 +11,9 @@ const WILAYAS = [
   "أولاد جلال","بني عباس","إن صالح","إن قزام","تقرت","جانت","المغير","المنيعة"
 ];
 
-const BRANCHES = ["أشبال وزهرات (6-11)", "كشافة (12-15)", "متقدم (16-18)", "جوالة (+18)", "قائد / مشرف"];
+const GROUP_NAME = "فوج عبد الحميد بن باديس";
+
+const BRANCHES = ["أشبال (7-10)", "كشاف ثاني (11-12)", "كشاف أول (13-14)", "متقدم (15-18)", "جوالة (+18)", "قائد / مشرف"];
 
 /* ---------- التخزين ---------- */
 function loadMembers() {
@@ -66,6 +68,53 @@ function initRegister() {
 
   fillSelect(document.getElementById("wilaya"), WILAYAS, "اختر الولاية");
   fillSelect(document.getElementById("branch"), BRANCHES, "اختر الفرع");
+
+  /* الصورة: تُصغَّر إلى 320px وتُخزَّن كـ data URL */
+  let photoData = "";
+  const photoInput = document.getElementById("photo");
+  const photoPreview = document.getElementById("photoPreview");
+  const photoHint = document.getElementById("photoHint");
+  const photoClear = document.getElementById("photoClear");
+
+  function setPhoto(data) {
+    photoData = data || "";
+    photoPreview.hidden = !photoData;
+    photoHint.hidden = !!photoData;
+    photoClear.hidden = !photoData;
+    if (photoData) photoPreview.src = photoData;
+    else photoPreview.removeAttribute("src");
+  }
+
+  photoInput.addEventListener("change", () => {
+    const file = photoInput.files[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast("يرجى اختيار ملف صورة");
+      photoInput.value = "";
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const max = 320;
+        const scale = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = Math.round(img.width * scale);
+        c.height = Math.round(img.height * scale);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        setPhoto(c.toDataURL("image/jpeg", 0.82));
+      };
+      img.onerror = () => toast("تعذّر قراءة الصورة");
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  photoClear.addEventListener("click", () => {
+    photoInput.value = "";
+    setPhoto("");
+  });
 
   const birth = document.getElementById("birthDate");
   birth.max = new Date().toISOString().split("T")[0];
@@ -123,11 +172,11 @@ function initRegister() {
       id: Date.now(),
       firstName: g("firstName"),
       lastName: g("lastName"),
-      gender: form.querySelector('input[name="gender"]:checked').value,
+      photo: photoData,
       birthDate: g("birthDate"),
       birthPlace: g("birthPlace"),
       wilaya: g("wilaya"),
-      group: g("group"),
+      group: GROUP_NAME,
       branch: g("branch"),
       phone: g("phone").replace(/\s/g, ""),
       email: g("email"),
@@ -153,6 +202,7 @@ function initRegister() {
   });
 
   form.addEventListener("reset", () => {
+    setPhoto("");
     form.querySelectorAll(".err").forEach(x => (x.textContent = ""));
     form.querySelectorAll(".invalid").forEach(x => x.classList.remove("invalid"));
   });
@@ -189,9 +239,6 @@ function initMembers() {
 
   function renderStats(all) {
     document.getElementById("sTotal").textContent = all.length;
-    document.getElementById("sMale").textContent = all.filter(m => m.gender === "ذكر").length;
-    document.getElementById("sFemale").textContent = all.filter(m => m.gender === "أنثى").length;
-    document.getElementById("sGroups").textContent = new Set(all.map(m => m.group)).size;
   }
 
   function render() {
@@ -205,8 +252,21 @@ function initMembers() {
     list.forEach((m, i) => {
       const tr = document.createElement("tr");
       cell(tr, i + 1);
+      const tdP = document.createElement("td");
+      if (m.photo) {
+        const im = document.createElement("img");
+        im.className = "avatar";
+        im.src = m.photo;
+        im.alt = "";
+        tdP.appendChild(im);
+      } else {
+        const ph = document.createElement("div");
+        ph.className = "avatar none";
+        ph.textContent = "👤";
+        tdP.appendChild(ph);
+      }
+      tr.appendChild(tdP);
       cell(tr, m.lastName + " " + m.firstName);
-      cell(tr, m.gender);
       cell(tr, calcAge(m.birthDate) + " سنة");
       cell(tr, m.wilaya);
       cell(tr, m.group);
@@ -241,9 +301,9 @@ function initMembers() {
   document.getElementById("exportBtn").addEventListener("click", () => {
     const list = filtered();
     if (!list.length) return toast("لا توجد بيانات للتصدير");
-    const head = ["اللقب","الاسم","الجنس","تاريخ الميلاد","مكان الميلاد","الولاية","الفوج","الفرع","الهاتف","البريد","العنوان","ولي الأمر","هاتف ولي الأمر","ملاحظات","تاريخ التسجيل"];
+    const head = ["اللقب","الاسم","تاريخ الميلاد","مكان الميلاد","الولاية","الفوج","الفرع","الهاتف","البريد","العنوان","ولي الأمر","هاتف ولي الأمر","ملاحظات","تاريخ التسجيل"];
     const esc = v => '"' + String(v ?? "").replace(/"/g, '""') + '"';
-    const rows = list.map(m => [m.lastName,m.firstName,m.gender,m.birthDate,m.birthPlace,m.wilaya,m.group,m.branch,m.phone,m.email,m.address,m.guardianName,m.guardianPhone,m.notes,m.registeredAt].map(esc).join(","));
+    const rows = list.map(m => [m.lastName,m.firstName,m.birthDate,m.birthPlace,m.wilaya,m.group,m.branch,m.phone,m.email,m.address,m.guardianName,m.guardianPhone,m.notes,m.registeredAt].map(esc).join(","));
     const csv = "\uFEFF" + [head.map(esc).join(","), ...rows].join("\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
